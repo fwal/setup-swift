@@ -3,7 +3,7 @@ import * as core from "@actions/core";
 import { System, OS } from "./os";
 
 const VERSIONS_LIST: [string, OS[]][] = [
-  ["5.3", [OS.MacOS, OS.Ubuntu]],
+  ["5.3", [OS.MacOS, OS.Ubuntu, OS.Windows]],
   ["5.2.5", [OS.Ubuntu]],
   ["5.2.4", [OS.MacOS, OS.Ubuntu]],
   ["5.2.3", [OS.Ubuntu]],
@@ -72,6 +72,11 @@ export function swiftPackage(version: string, system: System): Package {
       platform = `ubuntu${system.version.replace(/\D/g, "")}`;
       archiveName = `swift-${version}-RELEASE-ubuntu${system.version}`;
       archiveFile = `${archiveName}.tar.gz`;
+      break;
+    case OS.Windows:
+      platform = "windows10";
+      archiveName = `swift-${version}-RELEASE-windows10.exe`;
+      archiveFile = archiveName;
       break;
     default:
       throw new Error("Cannot create download URL for an unsupported platform");
